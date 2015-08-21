@@ -1,6 +1,10 @@
-var coreDependency = require('./imajs/build.js');
+var gulp = require('gulp');
+var traceur = require('gulp-traceur');
+var runSequence = require('run-sequence');
+var karma = require('gulp-karma');
 
-var coreTasks = require('./imajs/gulp-tasks');
+var coreDependency = require('./imajs/build.js');
+var IMAGulpTasks = require('./imajs/gulpTasks');
 
 try {
 	var appDependency = require('./app/build.js');
@@ -59,6 +63,7 @@ var files = {
 		watch: ['./app/**/*.less', '!./app/assets/bower/']
 	},
 	locale: {
+		base: './app/locale/',
 		src: appDependency.languages,
 		dest:{
 			server: './build/imajs/locale/',
@@ -114,5 +119,58 @@ var files = {
 	}
 };
 
+IMAGulpTasks(files);
 
-coreTasks(files);
+gulp.task('dev', function(callback) {
+	return runSequence(
+		['copy:appStatic', 'copy:imajsServer', 'copy:environment', 'shim', 'polyfill'],
+		['Es6ToEs5:client', 'Es6ToEs5:server', 'Es6ToEs5:vendor'],
+		['vendor:client', 'vendor:server', 'build:less', 'doc', 'locale'],
+		'vendor:clean',
+		['server'],
+		['devTest', 'watch'],
+		callback
+	);
+});
+
+gulp
+	.option('build', '-e, --env', 'Build environment')
+	.task('build', function(callback) {
+
+		if (this.flags.env === 'prod') {
+			uglifyCompression.global_defs.$Debug = false;
+		}
+		return runSequence(
+			['copy:appStatic', 'copy:imajsServer', 'copy:environment', 'shim', 'polyfill'], //copy folder public, concat shim
+			['Es6ToEs5:client', 'Es6ToEs5:server', 'Es6ToEs5:vendor'], // convert app and vendor script
+			['vendor:client', 'vendor:server', 'build:less', 'doc', 'locale'], // adjust vendors, compile less, create doc,
+			['bundle:js:app', 'bundle:js:server', 'bundle:css'],
+			['vendor:clean', 'bundle:clean'],// clean vendor
+			callback
+		);
+});
+
+gulp.task('test', function() {
+	// Be sure to return the stream
+	return gulp.src(files.test.src)
+		.pipe(karma({
+			configFile: './karma.conf.js',
+			action: 'run'
+		}))
+		.on('error', function(err) {
+			// Make sure failed tests cause gulp to exit non-zero
+			throw err;
+		});
+});
+
+gulp.task('devTest', function() {
+
+	return gulp.src(files.test.src)
+		.pipe(karma({
+			configFile: './karma.conf.js',
+			action: 'watch'
+		}))
+		.on('error', function(err) {
+			throw err;
+		});
+});
