@@ -54,7 +54,8 @@
     "ima-gulp-task-loader": "^0.16.0",
     "ima-gulp-tasks": "^0.16.1",
     "jest": "23.6.0",
-    "prettier": "1.15.3"
+    "prettier": "1.15.3",
+    "less": "3.9.0"
   },
   "dependencies": {
     "body-parser": "1.18.3",
