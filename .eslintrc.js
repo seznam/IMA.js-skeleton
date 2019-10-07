@@ -1,51 +1,26 @@
 module.exports = {
-  'extends': ['eslint:recommended', 'plugin:react/recommended', 'prettier', 'prettier/react'],
-  'parser': 'babel-eslint',
+  'extends': ['eslint:recommended', 'prettier'],
   'rules': {
     'prettier/prettier': [
       'error', {
         singleQuote: true,
-        semi: true,
-        jsxBracketSameLine: true
+        semi: true
       }
-    ],
-
-    'no-console': ['error', {
-      allow: ['warn', 'error']
-    }],
-
-    'react/prop-types': 0,
-    'react/wrap-multilines': 0
+    ]
   },
   'plugins': [
-    'prettier',
-    'jest',
-    'react',
-    'jasmine'
+    'prettier'
   ],
   'settings': {
-    'ecmascript': 2015,
-    'jsx': true,
-    'react': {
-      version: '16'
-    }
+    'ecmascript': 2015
   },
   'parserOptions': {
     'sourceType': 'module',
-    'ecmaVersion': 6,
-    'ecmaFeatures': {
-      'jsx': true
-    }
+    'ecmaVersion': 6
   },
   'env': {
     'browser': true,
     'node': true,
-    'es6': true,
-    'jasmine': true,
-    'jest/globals': true
-  },
-  'globals': {
-    '$Debug': true,
-    '$IMA': true
+    'es6': true
   }
 };
