@@ -28,23 +28,23 @@ Then open [http://localhost:3001/](http://localhost:3001/) to see your applicati
 
 
 ### Optional `examples`
-While creating your new application you can optionally append `--examples` argument, to generate prepared todos or feed example applications, so you can immediately start exploring IMA.js.
+While creating your new application you can optionally append `--examples` argument, to generate prepared todos or feed example applications, so you can start exploring IMA.js immediately.
 ```shell
 npx create-ima-app my-app --examples=[todos|feed]
 ```
 
 ## Getting started
-**Node >= 8** is required for the installation, you can use [nvm](https://github.com/nvm-sh/nvm) to easily manage your local node version. To create new app you can choose one of the following methods based on your preferences.
+**Node >= 8** is required for the installation. You can use [nvm](https://github.com/nvm-sh/nvm) to easily manage your local node version. To create new app you can choose one of the following methods based on your preferences.
 
-#### npm
+### npm
 ```shell 
 npm init ima-app my-app
 ```
-#### npx
+### npx
 ```shell 
 npx create-ima-app my-app
 ```
-#### yarn
+### yarn
 ```shell 
 yarn create ima-app my-app
 ```
