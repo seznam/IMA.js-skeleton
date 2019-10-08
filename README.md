@@ -1,43 +1,108 @@
-![IMA.js logo](https://imajs.io/img/imajs-logo.png)
+<p align="center">
+  <img height="200" src="https://imajs.io/img/imajs-logo.png">
+</p>
 
-# IMA.js skeleton application
+# Create IMA.js App
+Create IMA.js applications easily with simple command.
 
-The IMA.js is an application development stack for developing isomorphic
-applications written in pure JavaScript and React.
+#### Documentation
 
-## Why we use IMA.js and you should too?
-
-Here at [Seznam.cz](https://www.seznam.cz/vychytavky/), development of a frontend application comes with many checkboxes that need to be ticked off before the project goes public. Mainly because of a diverse audience and a challenging product requirements.
-
-In order to **not** reinvent the wheel on every project and to address all of these problems (checkboxes) we created the IMA.js framework. Here are a few outlines that we're most proud of:
-
-- [X] **Isomorphic** - application logic is first executed at the server-side, generates the page markup, and then when the application logic is executed at the client-side it automatically binds to the server-generated markup and acts like a single-page application (or a multi-page application if the client does not support JavaScript). This allows for fast load times, out-of-box support for web crawlers and greater overall user experienc (or UX for short).
-- [X] **React compatible** - IMA.js Views extend the React Component and are in tight cooperation with our Controllers. That means you can use the full magic of React v16 without loosing anything.
-- [X] **Production ready** - there's no need for additional setup or configuration. IMA.js uses evironment-specific configurations from the start.
-- [X] **Battle tested** - IMA.js is used on various projects across Seznam.cz. Some of them pushing the limits of what a frontend application can do.
-
-## Documentation
-
-We have prepared a complex tutorial for you:
-[Your first IMA.js application](https://github.com/seznam/IMA.js-skeleton/wiki/Tutorial,-part-1).
+We have prepared a complex tutorial for you: [Your first IMA.js application](https://github.com/seznam/IMA.js-skeleton/wiki/Tutorial,-part-1).
 This tutorial covers the basics of creating isomorphic web applications using
 IMA.js, but you will encounter some more advanced concepts in there as well.
 
 For a more in-depth information about the IMA.js see a [full documentation](https://github.com/seznam/IMA.js-skeleton/wiki/Documentation).
 
-## Main IMA.js parts
-- [IMA core](https://github.com/seznam/IMA.js-core) - it contains base classes and common classes for every days work which allow you server side rendering and hydrating application in browser.
-- [IMA server](https://github.com/seznam/IMA.js-server) - it contains methods which allow you connect IMA application with express framework.
-- [IMA bundle](https://github.com/seznam/IMA.js-gulp-tasks) - IMA.js use for bundling and automatisation gulp. There are prepared common tasks and base configuration.
+## Quickstart
+```shell
+npx create-ima-app my-app
+cd my-app
+npm run dev
+```
+`npx` comes with npm 5.2+ and higher. For earlier versions simply install `create-ima-app` globally and continue as before.
+```shell
+npm install -g create-ima-app my-app
+create-ima-app my-app
+```
+Then open [http://localhost:3001/](http://localhost:3001/) to see your application. When you're ready to deploy your application, run `npm run build` to create production-ready minified bundle in `build/` directory.
 
-## Plugins
-Here's a list of plugins maintained by Seznam.cz and other contributors that you can safely use in your app:
-- [Abstract analytic](https://github.com/seznam/IMA.js-plugin-analytic)
-- [Google analytic](https://github.com/seznam/IMA.js-plugin-analytic-google)
-- [3rd party scripts loader](https://github.com/seznam/IMA.js-plugin-script-loader)
-- [3rd party styles loader](https://github.com/seznam/IMA.js-plugin-style-loader)
-- [REST-API Client](https://github.com/jurca/IMA-plugin-rest-client)
-- [XHR](https://github.com/seznam/IMA.js-plugin-xhr) *(This is not a replacement for the fetch API that IMA.js uses by default.)*
-- [UI Atoms](https://github.com/seznam/IMA.js-ui-atoms)
-- [Extra-props selector](https://github.com/seznam/IMA.js-plugin-select)
-- [Self XSS](https://github.com/seznam/IMA.js-plugin-self-xss)
+
+### Optional `examples`
+While creating your new application you can optionally append `--examples` argument, to generate prepared todos or feed example applications, so you can immediately start exploring IMA.js.
+```shell
+npx create-ima-app my-app --examples=[todos|feed]
+```
+
+## Getting started
+**Node >= 8** is required for the installation, you can use [nvm](https://github.com/nvm-sh/nvm) to easily manage your local node version. To create new app you can choose one of the following methods based on your preferences.
+
+#### npm
+```shell 
+npm init ima-app my-app
+```
+#### npx
+```shell 
+npx create-ima-app my-app
+```
+#### yarn
+```shell 
+yarn create ima-app my-app
+```
+
+This will install all needed dependencies and create following directory structure inside `./my-app` directory.
+```
+my-app
+├── LICENSE
+├── README.md
+├── app
+│   ├── assets
+│   │   ├── less
+│   │   └── static
+│   ├── build.js
+│   ├── component
+│   │   └── document
+│   ├── config
+│   │   ├── bind.js
+│   │   ├── routes.js
+│   │   ├── services.js
+│   │   └── settings.js
+│   ├── environment.js
+│   ├── main.js
+│   └── page
+│       ├── AbstractPageController.js
+│       ├── error
+│       ├── home
+│       └── notFound
+├── gulpConfig.js
+├── gulpfile.js
+├── jest.conf.json
+├── jest.setup.js
+├── package-lock.json
+├── package.json
+└── server
+    └── server.js
+```
+
+## Available commands
+Once you've created your new IMA.js project, following commands become available to you through npm.
+
+#### `npm run dev`
+To start development server on [http://localhost:3001/](http://localhost:3001/). This will also start gulp tasks in watch mode, so any changes you make to the source code are automatically re-builded.
+
+#### `npm run test`
+To start jest test runners.
+
+#### `npm run lint`
+To run eslint on your application source files. We've prepared pre-configured `.eslintrc.js` file which follows our IMA.js coding styles, but feel free to adjust this to your needs.
+
+#### `npm run build`
+To build your application.
+
+#### `npm run build:spa`
+To build SPA version of your application.
+
+#### `npm run start`
+To start IMA.js server.
+
+## Why use this?
+Developing IMA.js application is fairly easy, but the initial setup process can be quite tiresome. This tool aims to streamline this process, save your time and provide you with buildable application with opinionated defaults that can be easily customized to your needs.
