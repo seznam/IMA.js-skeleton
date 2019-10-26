@@ -26,13 +26,6 @@ create-ima-app my-app
 ```
 Then open [http://localhost:3001/](http://localhost:3001/) to see your application. When you're ready to deploy your application, run `npm run build` to create production-ready minified bundle in `build/` directory.
 
-
-### Optional `examples`
-While creating your new application you can optionally append `--examples` argument, to generate prepared todos or feed example applications, so you can start exploring IMA.js immediately.
-```shell
-npx create-ima-app my-app --examples=[todos|feed]
-```
-
 ## Getting started
 **Node >= 8** is required for the installation. You can use [nvm](https://github.com/nvm-sh/nvm) to easily manage your local node version. To create new app you can choose one of the following methods based on your preferences.
 

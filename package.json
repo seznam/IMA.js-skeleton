@@ -50,7 +50,8 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "execa": "^2.0.5",
-    "yargs": "^14.2.0",
-    "ima-examples": "^0.16.0"
+    "ima-examples": "^0.16.0",
+    "inquirer": "^7.0.0",
+    "yargs": "^14.2.0"
   }
 }

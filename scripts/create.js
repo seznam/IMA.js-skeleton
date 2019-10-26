@@ -3,22 +3,49 @@ const fs = require('fs');
 const fsx = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const inquirer = require('inquirer');
 const argv = require('yargs').argv;
+const { info, error } = require('../utils/printUtils');
 
 const dir = argv._[0];
-const example = argv.example ? argv.example : 'hello';
 
-createImaApp(dir, example);
+inquirer
+  .prompt([
+    {
+      type: 'list',
+      name: 'example',
+      message: 'Choose a template for your new IMA.js application:',
+      choices: [
+        {
+          name: `${chalk.bold.blue(
+            'Empty'
+          )} - The basic Hello World example. Ideal for new projects.`,
+          value: 'hello'
+        },
+        {
+          name: `${chalk.bold.blue(
+            'Todos'
+          )} - Demo example of TodoMVC application.`,
+          value: 'todos'
+        },
+        {
+          name: `${chalk.bold.blue(
+            'Feed'
+          )}  - Demo example of twitter-like application with fake REST API.`,
+          value: 'feed'
+        }
+      ]
+    }
+  ])
+  .then(({ example }) => {
+    createImaApp(dir, example);
+  });
 
 function createImaApp(dirName, exampleName) {
-  console.log(
-    `\nCreating new IMA.js app inside ${chalk.green(dirName)} directory...\n`
+  info(
+    `Creating new IMA.js app inside ${chalk.green(dirName)} directory...`,
+    true
   );
-
-  if (!['todos', 'hello', 'feed'].includes(example)) {
-    console.log(chalk.red('Aborting... Example must be one of [todos|feed].'));
-    process.exit(0);
-  }
 
   const projName = dirName.split(path.sep).pop();
   const appRoot = path.resolve(dirName.toString());
@@ -26,15 +53,17 @@ function createImaApp(dirName, exampleName) {
 
   if (!fs.existsSync(dirName)) {
     try {
-      console.log(`Creating basic directory structure...`);
+      info(`Creating basic directory structure...`);
       fsx.copySync(tplRoot, appRoot);
     } catch (err) {
-      console.log(err);
+      error(err.message);
       process.exit(1);
     }
   } else {
-    console.log(
-      chalk.red(`Aborting... the directory ${dirName} already exists.\n`)
+    error(
+      `Aborting... the directory ${dirName} ${chalk.bold.red(
+        'already exists'
+      )}.\n`
     );
     process.exit(0);
   }
@@ -48,7 +77,7 @@ function createImaApp(dirName, exampleName) {
 
   // Copy example files into ./app directory
   if (exampleName !== 'hello') {
-    console.log(`Copying ${chalk.cyan(exampleName)} example files...`);
+    info(`Copying ${chalk.cyan(exampleName)} example files...`);
   }
 
   const exampleRoot = path.resolve(
@@ -57,11 +86,12 @@ function createImaApp(dirName, exampleName) {
   fsx.copySync(exampleRoot, path.join(appRoot, 'app'));
 
   // Run npm install
-  console.log(
+  info(
     `Running ${chalk.cyan(
       'npm install'
-    )} inside app directory, this might take a while...\n`
+    )} inside app directory, this might take a while...`
   );
+  console.log(chalk.dim('      Press CTRL+C to cancel.\n'));
 
   const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
   execa.sync(npm, ['install'], {
@@ -70,14 +100,14 @@ function createImaApp(dirName, exampleName) {
   });
 
   // Init git repo
-  console.log('\nInitializing git repository...');
+  info('Initializing git repository...', true);
   execa.sync('git', ['init'], { cwd: appRoot });
 
   // Show final info
-  console.log(`
-${chalk.green('Success!')} Created ${chalk.cyan(projName)} inside ${chalk.green(
-    appRoot
-  )} directory.
+  info(`${chalk.bold('Success!')} Created ${chalk.cyan(
+    projName
+  )} inside ${chalk.green(appRoot)} directory.
+
 From there you can run several commands:
 
   ${chalk.cyan('npm run test')}

@@ -7,10 +7,10 @@ const argv = require('yargs').argv;
 
 if (argv._.length === 0) {
   console.log(`
-Please specify your new project directory with an optional example: 
+Please specify your new project directory: 
   ${chalk.blue('create-ima-app')} ${chalk.green(
     '<project-directory>'
-  )} [--example=[todos|feed]]
+  )}
 
 For example:
   ${chalk.blue('create-ima-app')} ${chalk.green('my-ima-application')}`);
