@@ -1,3 +1,5 @@
+The package was moved to https://github.com/seznam/ima/tree/master/packages/create-ima-app.
+
 ![IMA.js logo](https://imajs.io/img/imajs-logo.png)
 
 # IMA.js skeleton application
